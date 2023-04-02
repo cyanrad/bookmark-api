@@ -4,11 +4,11 @@ import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class DbService extends PrismaClient {
-  constructor(private configService: ConfigService) {
+  constructor(config: ConfigService) {
     super({
       datasources: {
         db: {
-          url: configService.get<string>('DATABASE_URL'),
+          url: config.get<string>('DATABASE_URL'),
         },
       },
     });

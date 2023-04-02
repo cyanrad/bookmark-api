@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+    # The first container
+    PostgreSQL:
+        image: postgres:15.1-alpine
+        ports: # Host:Container
+            - 5434:5432
+        environment:
+            - POSTGRES_USER=rootuser
+            - POSTGRES_PASSWORD=rootpass
+            - POSTGRES_DB=note
+        volumes:
+            - bookmarks:/data
+
+volumes:
+    bookmarks: {}
