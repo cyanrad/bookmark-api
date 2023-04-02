@@ -1,5 +1,5 @@
 import { Injectable, ForbiddenException } from '@nestjs/common';
-import { signupUser } from './data_models';
+import { loginUser, signupUser } from './data_models';
 import * as argon from 'argon2';
 import { DbService } from 'src/db/db.service';
 import { Prisma } from '@prisma/client';
@@ -7,8 +7,24 @@ import { Prisma } from '@prisma/client';
 @Injectable({})
 export class AuthService {
   constructor(private db: DbService) {}
-  login() {
-    return { message: "CONGRATS, you're logged in" };
+
+  async login(user: loginUser) {
+    const foundUser = await this.db.user.findUnique({
+      where: {
+        email: user.email,
+      },
+    });
+    if (!foundUser) throw new ForbiddenException('wrong credentials');
+
+    if (await argon.verify(foundUser.hash, user.password)) {
+      delete foundUser.hash;
+      return {
+        message: "you're logged in!",
+        foundUser,
+      };
+    } else {
+      throw new ForbiddenException('wrong credentials');
+    }
   }
 
   async signup(user: signupUser) {
