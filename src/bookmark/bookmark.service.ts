@@ -16,4 +16,14 @@ export class BookmarkService {
 
     return bookmark;
   }
+
+  async getBookmarks(userId: number) {
+    let bookmarks = await this.db.bookmark.findMany({
+      where: {
+        userId: userId,
+      },
+    });
+
+    return bookmarks;
+  }
 }

@@ -195,7 +195,17 @@ describe('App e2e', () => {
           .expectStatus(400);
       });
     });
-    describe('Get All', () => {});
+    describe('Get All', () => {
+      it('valid get all', () => {
+        return pactum
+          .spec()
+          .withBearerToken('$S{userJWT}')
+          .get('/bookmark')
+          .expectStatus(200)
+          .expectBodyContains('"testing title"')
+          .inspect();
+      });
+    });
     describe('Get by ID', () => {});
     describe('Edit', () => {});
     describe('Delete', () => {});
