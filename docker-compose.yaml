@@ -1,14 +1,24 @@
 version: "3.8"
 services:
-    # The first container
-    PostgreSQL:
+    dev-db:
         image: postgres:15.1-alpine
-        ports: # Host:Container
+        ports:
             - 5434:5432
         environment:
             - POSTGRES_USER=rootuser
             - POSTGRES_PASSWORD=rootpass
-            - POSTGRES_DB=note
+            - POSTGRES_DB=bookmarks
+        volumes:
+            - bookmarks:/data
+
+    test-db:
+        image: postgres:15.1-alpine
+        ports:
+            - 5435:5432
+        environment:
+            - POSTGRES_USER=rootuser
+            - POSTGRES_PASSWORD=rootpass
+            - POSTGRES_DB=bookmarks
         volumes:
             - bookmarks:/data
 
