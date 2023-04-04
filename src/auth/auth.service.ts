@@ -37,7 +37,7 @@ export class AuthService {
         data: {
           email: user.email,
           hash: hash,
-          fristName: user.firstName,
+          firstName: user.firstName,
           lastName: user.lastName,
         },
       });

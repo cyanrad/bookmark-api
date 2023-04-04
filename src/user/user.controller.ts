@@ -18,6 +18,6 @@ export class UserController {
 
   @Patch('edit')
   editMe(@GetUser('id') userId: number, @Body() data: editMeDTO) {
-    return this.editMe(userId, data);
+    return this.userService.editMe(userId, data);
   }
 }

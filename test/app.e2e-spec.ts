@@ -119,8 +119,20 @@ describe('App e2e', () => {
           .expectStatus(200);
       });
     });
-    describe('Get Me', () => {});
-    describe('Edit', () => {});
+    describe('Edit', () => {
+      it('valid editMe', () => {
+        return pactum
+          .spec()
+          .withBearerToken('$S{userJWT}')
+          .withBody({
+            email: 'thisIsAnotherEmail@anemail.com',
+            firstName: 'ruwudwan',
+            lastName: 'j0b',
+          })
+          .patch('/user/edit')
+          .expectStatus(200);
+      });
+    });
   });
 
   describe('Bookmark', () => {
