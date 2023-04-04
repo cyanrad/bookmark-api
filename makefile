@@ -18,6 +18,6 @@ test-dbup:
 
 test-dbreset:
 	make test-dbdown
-	make test-dbup
+	dotenv -f ".env.testing" run make test-dbup
 
 .PHONY: dev-dbup dev-dbdown test-dbup test-dbdown test-dbreset
