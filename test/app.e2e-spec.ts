@@ -130,7 +130,10 @@ describe('App e2e', () => {
             lastName: 'j0b',
           })
           .patch('/user/edit')
-          .expectStatus(200);
+          .expectStatus(200)
+          .expectBodyContains('j0b')
+          .expectBodyContains('ruwudwan')
+          .expectBodyContains('thisIsAnotherEmail@anemail.com');
       });
     });
   });
