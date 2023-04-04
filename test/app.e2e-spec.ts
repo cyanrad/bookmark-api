@@ -85,6 +85,7 @@ describe('App e2e', () => {
           .spec()
           .post('/auth/login/')
           .withBody(body)
+          .stores('userJWT', 'access_token')
           .expectStatus(200);
       });
       it('invalid login: empty email', () => {
@@ -109,6 +110,15 @@ describe('App e2e', () => {
   });
 
   describe('User', () => {
+    describe('GetMe', () => {
+      it('valid getme', () => {
+        return pactum
+          .spec()
+          .withBearerToken('$S{userJWT}')
+          .get('/user/me')
+          .expectStatus(200);
+      });
+    });
     describe('Get Me', () => {});
     describe('Edit', () => {});
   });
