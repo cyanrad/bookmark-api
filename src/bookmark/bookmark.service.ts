@@ -26,4 +26,18 @@ export class BookmarkService {
 
     return bookmarks;
   }
+
+  async getBookmarkById(userId: number, bookmarkId: number) {
+    let bookmark = await this.db.bookmark.findUnique({
+      where: {
+        id: bookmarkId,
+      },
+    });
+
+    if (bookmark.userId !== userId) {
+      return undefined;
+    }
+
+    return bookmark;
+  }
 }

@@ -152,7 +152,8 @@ describe('App e2e', () => {
           .withBearerToken('$S{userJWT}')
           .withBody(body)
           .post('/bookmark')
-          .expectStatus(201);
+          .expectStatus(201)
+          .stores('bookmarkID', 'id');
       });
 
       it('invalid create: missing title', () => {
@@ -206,7 +207,17 @@ describe('App e2e', () => {
           .inspect();
       });
     });
-    describe('Get by ID', () => {});
+    describe('Get by ID', () => {
+      it('valid get by id', () => {
+        return pactum
+          .spec()
+          .withBearerToken('$S{userJWT}')
+          .get('/bookmark/$S{bookmarkID}')
+          .expectStatus(200)
+          .expectBodyContains('"testing title"')
+          .inspect();
+      });
+    });
     describe('Edit', () => {});
     describe('Delete', () => {});
   });

@@ -5,6 +5,7 @@ import {
   Post,
   UseGuards,
   HttpCode,
+  Param,
 } from '@nestjs/common';
 import { GetUser } from 'src/auth/decorator';
 import { JwtGuard } from 'src/auth/guard';
@@ -28,5 +29,14 @@ export class BookmarkController {
   @HttpCode(200)
   getBookmarks(@GetUser('id') userId: number) {
     return this.bookmark.getBookmarks(userId);
+  }
+
+  @Get(':id')
+  @HttpCode(200)
+  getBookmarkById(
+    @GetUser('id') userId: number,
+    @Param('id') bookmarkId: number,
+  ) {
+    return this.bookmark.getBookmarkById(userId, Number(bookmarkId));
   }
 }
