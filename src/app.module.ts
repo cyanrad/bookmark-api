@@ -4,6 +4,8 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { DbModule } from './db/db.module';
 import { ConfigModule } from '@nestjs/config';
+import { BookmarkController } from './bookmark/bookmark.controller';
+import { BookmarkService } from './bookmark/bookmark.service';
 
 const path = require('path');
 let envType = process.env.NODE_ENV;
@@ -20,5 +22,7 @@ let absoluteEnvPath: string = path.join(__dirname, relativeEnvPath);
       envFilePath: absoluteEnvPath,
     }),
   ],
+  controllers: [BookmarkController],
+  providers: [BookmarkService],
 })
 export class AppModule {}

@@ -4,6 +4,7 @@ import { Test } from '@nestjs/testing';
 import * as pactum from 'pactum';
 import { DbService } from 'src/db/db.service';
 import { loginUser, signupUser } from 'src/auth/data_models';
+import { createBookmarkDto } from 'src/bookmark/bookmark.dto';
 
 describe('App e2e', () => {
   let app: INestApplication;
@@ -139,7 +140,61 @@ describe('App e2e', () => {
   });
 
   describe('Bookmark', () => {
-    describe('Create', () => {});
+    describe('Create', () => {
+      it('valid create', () => {
+        let body: createBookmarkDto = {
+          title: 'testing title',
+          link: 'www.testing.com',
+          description: '',
+        };
+        return pactum
+          .spec()
+          .withBearerToken('$S{userJWT}')
+          .withBody(body)
+          .post('/bookmark')
+          .expectStatus(201);
+      });
+
+      it('invalid create: missing title', () => {
+        let body = {
+          link: 'www.testing.com',
+          description: '',
+        };
+        return pactum
+          .spec()
+          .withBearerToken('$S{userJWT}')
+          .withBody(body)
+          .post('/bookmark')
+          .expectStatus(400);
+      });
+
+      it('invalid create: missing link', () => {
+        let body = {
+          title: 'testing title',
+          description: '',
+        };
+        return pactum
+          .spec()
+          .withBearerToken('$S{userJWT}')
+          .withBody(body)
+          .post('/bookmark')
+          .expectStatus(400);
+      });
+
+      it('invalid create: incorrect link', () => {
+        let body: createBookmarkDto = {
+          title: 'testing title',
+          link: 'this is not a link',
+          description: '',
+        };
+        return pactum
+          .spec()
+          .withBearerToken('$S{userJWT}')
+          .withBody(body)
+          .post('/bookmark')
+          .expectStatus(400);
+      });
+    });
     describe('Get All', () => {});
     describe('Get by ID', () => {});
     describe('Edit', () => {});
