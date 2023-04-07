@@ -1,6 +1,7 @@
 dev-dbdown:
 	docker compose rm dev-db -s -f -v
 
+# the timeout is just in case the system is slow
 dev-dbup:
 	docker compose up dev-db -d
 	timeout 2
@@ -12,7 +13,7 @@ test-dbdown:
 
 test-dbup:
 	docker compose up test-db -d
-	timeout 2
+	timeout 2 
 	prisma migrate deploy
 	prisma generate
 

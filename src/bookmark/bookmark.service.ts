@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { createBookmarkDto } from './bookmark.dto';
 import { DbService } from 'src/db/db.service';
 
@@ -18,13 +18,14 @@ export class BookmarkService {
   }
 
   async getBookmarks(userId: number) {
-    let bookmarks = await this.db.bookmark.findMany({
+    let user = this.db.user.findUnique({
       where: {
-        userId: userId,
+        id: userId,
       },
     });
 
-    return bookmarks;
+    console.log(user.bookmark());
+    return user.bookmark();
   }
 
   async getBookmarkById(userId: number, bookmarkId: number) {
@@ -34,8 +35,8 @@ export class BookmarkService {
       },
     });
 
-    if (bookmark.userId !== userId) {
-      return undefined;
+    if (!bookmark || bookmark.userId !== userId) {
+      throw new ForbiddenException('Access to resource denied');
     }
 
     return bookmark;
