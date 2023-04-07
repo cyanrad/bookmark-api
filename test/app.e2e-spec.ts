@@ -203,7 +203,7 @@ describe('App e2e', () => {
           .withBearerToken('$S{userJWT}')
           .get('/bookmark')
           .expectStatus(200)
-          .expectBodyContains('"testing title"')
+          .expectBodyContains('"testing titl"')
           .inspect();
       });
     });
